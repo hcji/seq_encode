@@ -17,7 +17,7 @@ def split_smiles(smiles):
         mol = Chem.MolFromSmiles(smiles)
         smiles = Chem.MolToSmiles(mol, kekuleSmiles=True)
     except:
-        return None
+        pass
     splitted_smiles = []
     for j, k in enumerate(smiles):
         if len(smiles) == 1:
