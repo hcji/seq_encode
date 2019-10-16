@@ -12,10 +12,10 @@ from tqdm import tqdm
 from scipy import sparse
 
 
-def split_smiles(smiles):
+def split_smiles(smiles, kekuleSmiles=True):
     try:
         mol = Chem.MolFromSmiles(smiles)
-        smiles = Chem.MolToSmiles(mol, kekuleSmiles=True)
+        smiles = Chem.MolToSmiles(mol, kekuleSmiles=kekuleSmiles)
     except:
         pass
     splitted_smiles = []
@@ -42,19 +42,19 @@ def split_smiles(smiles):
                 splitted_smiles.append(k)
     return splitted_smiles
 
-def get_maxlen(all_smiles):
+def get_maxlen(all_smiles, kekuleSmiles=True):
     maxlen = 0
     for smi in tqdm(all_smiles):
-        spt = split_smiles(smi)
+        spt = split_smiles(smi, kekuleSmiles=kekuleSmiles)
         if spt is None:
             continue
         maxlen = max(maxlen, len(spt))
     return maxlen
 
-def get_dict(all_smiles, save_path):
+def get_dict(all_smiles, save_path, kekuleSmiles=True):
     words = [' ']
     for smi in tqdm(all_smiles):
-        spt = split_smiles(smi)
+        spt = split_smiles(smi, kekuleSmiles=kekuleSmiles)
         if spt is None:
             continue
         for w in spt:
@@ -66,10 +66,10 @@ def get_dict(all_smiles, save_path):
         json.dump(words, js)
     return words
 
-def one_hot_coding(smi, words, max_len=1000):
+def one_hot_coding(smi, words, kekuleSmiles=True, max_len=1000):
     coord_j = []
     coord_k = []
-    spt = split_smiles(smi)
+    spt = split_smiles(smi, kekuleSmiles=kekuleSmiles)
     if spt is None:
         return None
     for j,w in enumerate(spt):
