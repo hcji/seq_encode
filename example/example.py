@@ -8,14 +8,13 @@ Created on Wed Jul  3 10:20:36 2019
 import os
 import json
 from tqdm import tqdm
-from smiles_to_onehot.encoding import get_dict, one_hot_coding
+from encoder.smiles import smiles_coder
 
 with open('hmdb_smiles/hmdb_smiles.json', 'r') as js:
     hmdb_smiles = json.load(js)
-    
-words = get_dict(hmdb_smiles, save_path=os.getcwd())
 
-x = []
-for smi in tqdm(hmdb_smiles):
-    xi = one_hot_coding(smi, words, max_len=100)
-    x.append(xi)
+coder = smiles_coder()
+coder.fit(hmdb_smiles)
+hot = coder.transform(hmdb_smiles)
+rebuild = coder.inverse_transform(hot)
+
