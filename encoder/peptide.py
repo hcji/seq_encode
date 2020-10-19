@@ -5,6 +5,9 @@ Created on Sat Oct 17 15:57:59 2020
 @author: jihon
 """
 
+import numpy as np
+from tqdm import tqdm
+
 def peptide_split(p):
     split = []
     temp = ''
@@ -35,6 +38,7 @@ class peptide_encoder():
         
     def fit(self, peptide_data, max_length = 150):
         for i in tqdm(range(len(peptide_data))):
+            p = peptide_data[i]
             peptide_data[i] = peptide_split(p)
             self.char_set = self.char_set.union(set(peptide_data[i]))
         self.max_length = max_length
@@ -48,6 +52,7 @@ class peptide_encoder():
             raise ValueError('smiles coder is not fitted')
         m = []
         for i in tqdm(range(len(peptide_data))):
+            p = peptide_data[i]
             peptide_data[i] = peptide_split(p)
             chars = peptide_data[i]
             l = np.zeros((self.max_length, self.n_class))
@@ -66,6 +71,7 @@ class peptide_encoder():
             raise ValueError('smiles coder is not fitted')
         m = []
         for i in tqdm(range(len(peptide_data))):
+            p = peptide_data[i]
             peptide_data[i] = peptide_split(p)
             chars = peptide_data[i]
             l = np.zeros((self.max_length, 1))

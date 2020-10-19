@@ -5,11 +5,9 @@ Created on Wed Jul  3 10:14:33 2019
 @author: hcji
 """
 
-import json
 import numpy as np
-from rdkit import Chem
 from tqdm import tqdm
-from scipy import sparse
+
 
 class smiles_coder:
     
