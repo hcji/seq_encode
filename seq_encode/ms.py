@@ -19,14 +19,13 @@ class ms_to_vec:
         self.reverse = reverse
         
     def transform(self, data, sparse_vec = False, precursor=None):
-        self.precursor = precursor
         data = data[data[:,0] < self.max_mz,:]
         length = int(self.max_mz * 1 / self.precision)
         if not self.reverse:
             index = (data[:,0]  * 1 / self.precision).astype(int)
         else:
             data = data[data[:,0] < self.precursor,:]
-            index = ((self.precursor - data[:,0])  * 1 / self.precision).astype(int)
+            index = ((precursor - data[:,0])  * 1 / self.precision).astype(int)
             
         value = data[:,1] / np.max(data[:,1])
         vector = np.zeros(length)
@@ -36,15 +35,23 @@ class ms_to_vec:
         else:
             return vector
             
-    def inverse_transform(self, vector):
+    def inverse_transform(self, vector, precursor=None):
         index = np.where(vector > 0)[0]
         if not self.reverse:
             mz = index * self.precision
         else:
-            mz = self.precursor - index * self.precision
+            mz = precursor - index * self.precision
             
         value = vector[index]
         data = np.vstack((mz, value)).transpose()
         return np.sort(data, axis = 0)
     
-       
+    def save(self, save_path):
+        np.savez(save_path, precision = self.precision, max_mz = self.max_mz, reverse = self.reverse)
+        
+    def load(self, save_path):
+        saved = np.load(save_path, allow_pickle=True)
+        self.precision = saved['precision']
+        self.max_mz = saved['max_mz']
+        self.reverse = saved['reverse']
+        
