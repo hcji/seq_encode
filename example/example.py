@@ -8,7 +8,7 @@ Created on Wed Jul  3 10:20:36 2019
 import os
 import json
 from tqdm import tqdm
-from encoder.smiles import smiles_coder
+from seq_encode.smiles import smiles_coder
 
 with open('hmdb_smiles/hmdb_smiles.json', 'r') as js:
     hmdb_smiles = json.load(js)

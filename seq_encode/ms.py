@@ -9,8 +9,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import sparse
 
-data = np.vstack([[33,3], [44,2], [[55,1]]])
-
 class ms_to_vec:
     
     def __init__(self, precision = 0.1, max_mz = 1000, reverse = False):
