@@ -124,9 +124,9 @@ class peptide_encoder():
         
     def load(self, save_path):
         saved = np.load(save_path, allow_pickle=True)
-        self.char_set = saved['char_set']
-        self.char_to_int = saved['char_to_int']
-        self.int_to_char = saved['int_to_char']
-        self.max_length = saved['max_length']
+        self.char_set = saved['char_set'].tolist()
+        self.char_to_int = saved['char_to_int'].tolist()
+        self.int_to_char = saved['int_to_char'].tolist()
+        self.max_length = saved['max_length'].tolist()
         self.n_class = len(self.char_set)
         self.fitted = True
