@@ -25,7 +25,8 @@ class ms_to_vec:
             data = data[data[:,0] < self.precursor,:]
             index = ((precursor - data[:,0])  * 1 / self.precision).astype(int)
             
-        value = data[:,1] / np.max(data[:,1])
+        value = data[:,1] / np.nanmax(data[:,1])
+        value[np.isnan(value)] = 0
         vector = np.zeros(length)
         vector[index] = value
         if sparse_vec:
